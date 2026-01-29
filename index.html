@@ -1,24 +1,1532 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Project Name - Coming Soon</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COMPASS-GH | Consensus for Safe General Health AI</title>
+    <meta name="description"
+        content="A global academic initiative defining safety standards for AI in general health queries.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FAF9F7',
+                        charcoal: '#1A1F2E',
+                        gold: '#B8956B',
+                        stone: '#6B6B6B',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        h1 { color: #333; }
-        p { color: #666; }
-        .footer { margin-top: 50px; font-size: 0.8em; color: #999; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF9F7;
+            color: #1A1F2E;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Elegant transitions */
+        .transition-elegant {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Logo scroll animation */
+        @keyframes scroll-logos {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-scroll-logos {
+            animation: scroll-logos 40s linear infinite;
+        }
+
+        .animate-scroll-logos:hover {
+            animation-play-state: paused;
+        }
+
+        /* Logo container for normalized sizing */
+        .logo-item {
+            height: 120px;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 2rem;
+            padding-top: 10px;
+        }
+
+        .logo-item img {
+            max-height: 60px;
+            max-width: 180px;
+            width: auto;
+            object-fit: contain;
+            opacity: 0.9;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .logo-item:hover img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .logo-location {
+            font-size: 11px;
+            color: #9CA3AF;
+            letter-spacing: 0.02em;
+            text-align: center;
+            white-space: nowrap;
+            margin-top: auto;
+            padding-bottom: 10px;
+        }
+
+        /* Gradient masks for carousel */
+        .gradient-mask-left {
+            background: linear-gradient(to right, #FAF9F7 0%, transparent 100%);
+        }
+
+        .gradient-mask-right {
+            background: linear-gradient(to left, #FAF9F7 0%, transparent 100%);
+        }
+
+        /* Subtle scrollbar */
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(26, 31, 46, 0.15) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(26, 31, 46, 0.15);
+            border-radius: 2px;
+        }
+
+        /* Section fade-in animation */
+        .fade-section {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fade-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ============ COMPASS STYLES ============ */
+
+        /* Fixed 3D Compass Scene */
+        .compass-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 0;
+            perspective: 1000px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* The 3D Container for the Compass */
+        .compass-assembly {
+            position: relative;
+            width: 550px;
+            height: 550px;
+            transform-style: preserve-3d;
+            transform: rotateX(35deg);
+            will-change: transform;
+            opacity: 0.2;
+        }
+
+        /* Cover Page Styles */
+        .cover-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .highlight-gold {
+            color: #B8956B;
+        }
+
+        /* Frosted glass content card for readability */
+        .content-card {
+            background: rgba(250, 249, 247, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(26, 31, 46, 0.05);
+        }
+
+        /* Search Modal */
+        .search-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(26, 31, 46, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .search-modal.active {
+            display: flex;
+        }
+
+        .search-container {
+            background: #FAF9F7;
+            width: 100%;
+            max-width: 600px;
+            max-height: 70vh;
+            margin: 5rem auto;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem;
+            border-bottom: 1px solid rgba(26, 31, 46, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 1.125rem;
+            color: #1A1F2E;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(26, 31, 46, 0.4);
+        }
+
+        .search-results {
+            max-height: calc(70vh - 80px);
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: rgba(26, 31, 46, 0.05);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: #1A1F2E;
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-snippet {
+            font-size: 0.875rem;
+            color: rgba(26, 31, 46, 0.7);
+            line-height: 1.5;
+        }
+
+        .search-result-snippet mark {
+            background: #B8956B;
+            color: white;
+            border-radius: 2px;
+            padding: 0 2px;
+        }
+
+        .search-no-results {
+            padding: 2rem;
+            text-align: center;
+            color: rgba(26, 31, 46, 0.5);
+        }
+
+        /* Compass Internal Styling */
+        .compass-face {
+            fill: #FDF9F0;
+            stroke: #B8956B;
+            stroke-width: 3;
+        }
+
+        .compass-rim-side {
+            fill: #9A7B45;
+        }
+
+        .cardinal-text {
+            fill: #1A1F2E;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 22px;
+            filter: drop-shadow(0px 1px 0px rgba(255, 255, 255, 0.5));
+        }
+
+        .compass-needle {
+            filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        .center-pin {
+            fill: #E6C25A;
+            stroke: #B8956B;
+            stroke-width: 1;
+            filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.3));
+        }
+
+        .glass-glare {
+            fill: url(#glareGradient);
+            opacity: 0.3;
+            mix-blend-mode: soft-light;
+            pointer-events: none;
+        }
+
+        /* Needle locked state indicator */
+        .compass-assembly.locked {
+            opacity: 0.25;
+        }
+
+        .compass-assembly.locked .compass-needle {
+            filter: drop-shadow(0px 2px 4px rgba(184, 149, 107, 0.5));
+        }
+
+        /* Small Nav Bar Compass */
+        .nav-compass {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 2px 4px rgba(26, 31, 46, 0.1));
+        }
+
+        .nav-needle {
+            transform-origin: 200px 200px;
+            animation: navNeedleWobble 3s ease-in-out infinite;
+        }
+
+        @keyframes navNeedleWobble {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(10deg);
+            }
+
+            75% {
+                transform: rotate(-10deg);
+            }
+        }
+
+        /* ============ VENN DIAGRAM STYLES ============ */
+        .venn-section {
+            position: relative;
+        }
+
+        .content-card.venn-card {
+            max-width: 100%;
+        }
+
+        .venn-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 300px;
+            margin: 1rem auto 0;
+        }
+
+        .venn-ellipse {
+            position: absolute;
+            width: 450px;
+            height: 240px;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 2px solid rgba(26, 31, 46, 0.25);
+            background: transparent;
+            box-shadow:
+                inset 0 2px 8px rgba(26, 31, 46, 0.04),
+                0 4px 12px rgba(26, 31, 46, 0.06);
+        }
+
+        .venn-ellipse-left {
+            left: -30%;
+            border-color: rgba(91, 123, 138, 0.35);
+        }
+
+        .venn-ellipse-right {
+            right: -30%;
+            border-color: rgba(107, 139, 107, 0.35);
+        }
+
+        /* Labels - large heading-style fonts */
+        .venn-label {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            opacity: 0;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Left label: dusty blue for Public Health */
+        .venn-label-left {
+            left: 22%;
+            color: #5B7B8A;
+        }
+
+        /* Right label: sage green for Clinical Medicine */
+        .venn-label-right {
+            left: 78%;
+            color: #6B8B6B;
+        }
+
+        .venn-intersection-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 500;
+            color: #B8956B;
+            opacity: 0;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Connector lines - aligned with labels at 28%, 50%, 72% */
+        .venn-connectors {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 50px;
+            margin: 0 auto;
+        }
+
+        .venn-connector {
+            position: absolute;
+            width: 1px;
+            height: 0;
+            background: rgba(26, 31, 46, 0.2);
+            bottom: 0;
+        }
+
+        .venn-connector-left {
+            left: 28%;
+            background: rgba(91, 123, 138, 0.4);
+        }
+
+        .venn-connector-center {
+            left: 50%;
+            background: rgba(184, 149, 107, 0.5);
+        }
+
+        .venn-connector-right {
+            left: 72%;
+            background: rgba(107, 139, 107, 0.4);
+        }
+
+        @media (max-width: 640px) {
+            .venn-container {
+                max-width: 100%;
+                height: 160px;
+            }
+
+            .venn-ellipse {
+                width: 180px;
+                height: 110px;
+            }
+
+            .venn-label {
+                font-size: 0.8rem;
+            }
+
+            .venn-label-left {
+                left: 25px;
+            }
+
+            .venn-label-right {
+                right: 25px;
+            }
+
+            .venn-intersection-label {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
-<body>
-    <h1>🧭 COMPASS-GH 🧭</h1>
-    <h2>A consensus roadmap for defining standards for safe, accurate and equitable AI in general health queries.</h2>
-    <p>This website is currently still <b>under construction</b>.</p>
-    <p>The full content will be available in March 2026.</p>
-    
-    <p><em>If you have any questions, please contact the authors at: jiazhen.pan@tum.de</em></p>
 
-    <div class="footer">
-        &copy; 2026 Technical University of Munich, Univeristy of Adelaide & Nature Health.
+<body>
+
+    <!-- SVG Filters & Gradients for Compass -->
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;">
+        <defs>
+            <linearGradient id="glareGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="white" stop-opacity="0.9" />
+                <stop offset="45%" stop-color="white" stop-opacity="0" />
+                <stop offset="100%" stop-color="white" stop-opacity="0" />
+            </linearGradient>
+            <!-- Needle Gradients -->
+            <linearGradient id="goldNeedle" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#B8956B" />
+                <stop offset="50%" stop-color="#E6C25A" />
+                <stop offset="100%" stop-color="#B8956B" />
+            </linearGradient>
+            <linearGradient id="slateNeedle" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2D3748" />
+                <stop offset="50%" stop-color="#4A5568" />
+                <stop offset="100%" stop-color="#2D3748" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- FIXED BACKGROUND: The 3D Compass Assembly -->
+    <div class="compass-scene">
+        <div class="compass-assembly" id="compassAssembly">
+            <svg width="550" height="550" viewBox="0 0 400 400" overflow="visible">
+                <!-- 1. The "Thickness" (Cylinder Side) -->
+                <circle cx="200" cy="212" r="180" class="compass-rim-side" />
+                <!-- 2. The Main Face (Ceramic) -->
+                <circle cx="200" cy="200" r="180" class="compass-face" />
+                <!-- Inner Decorative Ring -->
+                <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="1" />
+                <!-- 3. Markings (Ticks generated via JS) -->
+                <g id="ticksGroup"></g>
+                <!-- 4. Cardinal Points -->
+                <g class="cardinal-text">
+                    <text x="200" y="55" text-anchor="middle">N</text>
+                    <text x="200" y="365" text-anchor="middle">S</text>
+                    <text x="360" y="210" text-anchor="middle">E</text>
+                    <text x="40" y="210" text-anchor="middle">W</text>
+                </g>
+                <!-- 5. The Needle (ROTATING GROUP) -->
+                <g id="needleGroup" class="compass-needle">
+                    <!-- North Half (Gold) -->
+                    <path d="M200,40 L215,200 L185,200 Z" fill="url(#goldNeedle)" />
+                    <!-- South Half (Slate Grey) -->
+                    <path d="M200,360 L215,200 L185,200 Z" fill="url(#slateNeedle)" />
+                    <!-- Spine/Crease for 3D effect -->
+                    <path d="M200,40 L200,360" stroke="rgba(0,0,0,0.1)" stroke-width="1" />
+                </g>
+                <!-- 6. Center Pin (STATIC) -->
+                <circle cx="200" cy="200" r="5" class="center-pin" />
+                <!-- 7. Glass Glare (Top Layer) -->
+                <circle cx="200" cy="200" r="180" class="glass-glare" />
+            </svg>
+        </div>
     </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-charcoal/10">
+        <div class="max-w-6xl mx-auto px-6 md:px-12 flex items-center justify-between py-3">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2">
+                <img src="logos/logo.jpeg" alt="COMPASS-GH Logo" class="w-10 h-10 object-contain rounded-full">
+                <span
+                    class="font-serif text-xl font-medium text-charcoal tracking-tight hidden sm:inline">COMPASS-GH</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">About</a>
+                <a href="papers.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">Papers</a>
+                <a href="people.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">People</a>
+                <a href="contact.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">Contact</a>
+            </div>
+
+            <!-- Right Side: Search + Join Now -->
+            <div class="flex items-center gap-4">
+                <!-- Search Icon -->
+                <button id="searchBtn" class="p-2 text-charcoal/60 hover:text-charcoal transition-elegant"
+                    aria-label="Search">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+
+                <!-- Join Now Button -->
+                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
+                    Join Now
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-0">
+        <!-- COVER PAGE (Full Screen) -->
+        <section class="cover-page">
+            <div class="max-w-4xl mx-auto px-6 md:px-12 text-center">
+                <!-- COMPASS-GH Title (large, on top) -->
+                <h1
+                    class="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal mb-6 fade-section tracking-wide">
+                    <span class="highlight-gold">COMPASS</span><span class="highlight-gold">‑</span><span
+                        class="highlight-gold">GH</span>
+                </h1>
+
+
+                <!-- Full Name with Highlighted Letters -->
+                <p
+                    class="font-serif text-3xl md:text-4xl lg:text-5xl font-light text-charcoal/80 leading-relaxed fade-section">
+                    <span class="highlight-gold">C</span>onsensus on
+                    <span class="highlight-gold">M</span>etrics,
+                    <span class="highlight-gold">P</span>riorities,
+                    <span class="highlight-gold">A</span>nd
+                    <span class="highlight-gold">S</span>tandards for
+                    <span class="highlight-gold">S</span>afe
+                    <span class="highlight-gold">G</span>eneral
+                    <span class="highlight-gold">H</span>ealth AI
+                </p>
+
+                <!-- Join Now Button on Cover -->
+                <div class="mt-10 fade-section">
+                    <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                        class="join-now-btn inline-flex items-center gap-2 px-8 py-4 text-lg font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm shadow-lg">
+                        Join Now
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <button onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})"
+                class="scroll-indicator cursor-pointer hover:opacity-70 transition-opacity" aria-label="Scroll down">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-charcoal/40" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </button>
+        </section>
+
+        <!-- Main Content Starts Here -->
+        <section id="about" class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card text-center fade-section">
+                    <p class="text-charcoal/80 leading-relaxed text-lg">
+                        Defining safety standards for artificial intelligence in everyday health queries,
+                        uniting researchers, clinicians, technologists, and policymakers worldwide.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-4xl mx-auto px-6 md:px-12">
+            <div class="h-px bg-gradient-to-r from-transparent via-charcoal/15 to-transparent"></div>
+        </div>
+
+        <!-- Venn Diagram Section -->
+        <section id="general-health" class="py-20 md:py-28 overflow-hidden">
+            <div class="max-w-4xl mx-auto px-6 md:px-12">
+                <div class="content-card venn-section">
+
+                    <!-- Venn Diagram -->
+                    <div class="venn-container" id="vennContainer">
+                        <div class="venn-ellipse venn-ellipse-left" id="vennLeft"></div>
+                        <div class="venn-ellipse venn-ellipse-right" id="vennRight"></div>
+                        <div class="venn-label venn-label-left" id="labelLeft">Public<br>Health</div>
+                        <div class="venn-label venn-label-right" id="labelRight">Clinical<br>Medicine</div>
+                        <div class="venn-intersection-label" id="vennCenter">General<br>Health</div>
+                    </div>
+
+                    <!-- Definitions below diagram -->
+                    <div class="fade-section mt-6" id="vennDefinitions" style="opacity: 0;">
+                        <div class="grid md:grid-cols-3 gap-8 text-left pl-20">
+                            <div>
+                                <h4 class="font-serif text-lg font-medium mb-2" style="color: #5B7B8A;">Public Health
+                                </h4>
+                                <p class="text-sm text-charcoal/70 leading-relaxed">
+                                    Population-level policies, epidemiology, and community wellness
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-lg font-medium text-gold mb-2">General Health</h4>
+                                <p class="text-sm text-charcoal/70 leading-relaxed">
+                                    Where individuals seek AI guidance for lifestyle, symptoms, and wellness
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-serif text-lg font-medium mb-2" style="color: #6B8B6B;">Clinical
+                                    Medicine</h4>
+                                <p class="text-sm text-charcoal/70 leading-relaxed">
+                                    Hospital-based care, diagnosis, and specialized treatment
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Divider -->
+        <div class="max-w-4xl mx-auto px-6 md:px-12">
+            <div class="h-px bg-gradient-to-r from-transparent via-charcoal/15 to-transparent"></div>
+        </div>
+
+        <!-- Challenge Section -->
+        <section class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card">
+                    <div class="fade-section">
+                        <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                            The Challenge
+                        </h2>
+                        <p class="text-charcoal/70 leading-relaxed mb-8">
+                            People increasingly turn to Large Language Models to make sense of their
+                            well-being—interpreting
+                            symptoms,
+                            planning diets, managing anxiety, and coaching on sleep or fitness. Yet while clinical AI
+                            has
+                            rapidly
+                            coalesced around rigorous reporting guidelines, there remains no equivalent roadmap for
+                            consumer-facing applications.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-12 fade-section">
+                        <div>
+                            <h3 class="font-serif text-xl font-medium text-charcoal mb-3">General Health</h3>
+                            <p class="text-sm text-charcoal/70 leading-relaxed">
+                                The everyday space where people independently query AI for lifestyle optimization,
+                                symptom interpretation, and medical literacy. This domain requires safety and accuracy
+                                at scale, yet differs fundamentally from clinical diagnostics.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-xl font-medium text-charcoal mb-3">Critical Gaps</h3>
+                            <ul class="space-y-2 text-sm text-charcoal/70">
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0"></span>
+                                    <span>Fragmented benchmarking landscape</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0"></span>
+                                    <span>Clinical accuracy ≠ general health utility</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0"></span>
+                                    <span>Lack of diverse, representative datasets</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-gold mt-2 flex-shrink-0"></span>
+                                    <span>Misalignment between research and real-world needs</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Approach Section -->
+        <section class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card">
+                    <div class="fade-section">
+                        <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                            Our Approach
+                        </h2>
+                        <p class="text-charcoal/70 leading-relaxed mb-12">
+                            COMPASS-GH employs a structured, multidisciplinary consensus-building process to establish
+                            shared priorities, benchmarks, and standards for safe AI in general health.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 fade-section">
+                        <div class="pb-6 border-b border-charcoal/10 md:border-b-0">
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Priority Topics</h3>
+                            <p class="text-sm text-charcoal/70">Identify which capabilities matter most to stakeholders
+                                and
+                                users.</p>
+                        </div>
+                        <div class="pb-6 border-b border-charcoal/10 md:border-b-0">
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Dataset Evaluation</h3>
+                            <p class="text-sm text-charcoal/70">Vet existing resources and identify critical gaps for
+                                new
+                                data collection.</p>
+                        </div>
+                        <div class="pb-6 border-b border-charcoal/10 md:border-b-0">
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Evaluation Metrics</h3>
+                            <p class="text-sm text-charcoal/70">Move beyond accuracy to include safety, equity, empathy,
+                                and
+                                trust.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Consensus Building</h3>
+                            <p class="text-sm text-charcoal/70">Unite diverse stakeholders in a structured Delphi-based
+                                process.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Phases Section -->
+        <section class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card">
+                    <div class="fade-section">
+                        <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                            Research Phases
+                        </h2>
+                        <p class="text-charcoal/70 leading-relaxed mb-12">
+                            A structured, multi-stage approach to consensus building
+                        </p>
+                    </div>
+
+                    <div class="space-y-8 fade-section">
+                        <div class="flex gap-6 pb-8 border-b border-charcoal/10">
+                            <span class="font-serif text-2xl font-light text-stone/50 flex-shrink-0">01</span>
+                            <div>
+                                <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Literature Review</h3>
+                                <p class="text-sm text-charcoal/70">Comprehensive analysis of the current landscape at
+                                    the
+                                    intersection of general health and AI.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 pb-8 border-b border-charcoal/10">
+                            <span class="font-serif text-2xl font-light text-stone/50 flex-shrink-0">02</span>
+                            <div>
+                                <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Key Informant Interviews
+                                </h3>
+                                <p class="text-sm text-charcoal/70">Structured interviews and focus groups with
+                                    practitioners, researchers, and consumer representatives.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6 pb-8 border-b border-charcoal/10">
+                            <span class="font-serif text-2xl font-light text-stone/50 flex-shrink-0">03</span>
+                            <div>
+                                <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Delphi Consensus</h3>
+                                <p class="text-sm text-charcoal/70">Sequential questionnaires to refine perspectives and
+                                    achieve consensus among diverse stakeholders.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <span class="font-serif text-2xl font-light text-stone/50 flex-shrink-0">04</span>
+                            <div>
+                                <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Final Voting</h3>
+                                <p class="text-sm text-charcoal/70">Community voting to finalize the Catalogue of
+                                    Priority
+                                    Benchmark Tasks and Core Evaluation Framework.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Expected Outcomes Section -->
+        <section class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card">
+                    <div class="fade-section">
+                        <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                            Expected Outcomes
+                        </h2>
+                        <p class="text-charcoal/70 leading-relaxed mb-12">
+                            Tangible deliverables to advance the field of general health AI
+                        </p>
+                    </div>
+
+                    <div class="space-y-8 fade-section">
+                        <div class="pb-8 border-b border-charcoal/10">
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Catalogue of Priority
+                                Benchmark
+                                Tasks</h3>
+                            <p class="text-sm text-charcoal/70">Comprehensive list of critical capabilities for general
+                                health AI, ranked by importance and feasibility.</p>
+                        </div>
+                        <div class="pb-8 border-b border-charcoal/10">
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Core Evaluation Framework</h3>
+                            <p class="text-sm text-charcoal/70">Standardized metrics and methodologies for assessing
+                                safety,
+                                accuracy, equity, and empathy in AI systems.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-medium text-charcoal mb-2">Reporting Standards</h3>
+                            <p class="text-sm text-charcoal/70">Guidelines for transparent, reproducible research in
+                                general
+                                health AI, aligned with clinical standards.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Global Collaboration Section -->
+        <section class="py-20 md:py-28">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card">
+                    <div class="fade-section">
+                        <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                            Global Collaboration
+                        </h2>
+                        <p class="text-charcoal/70 leading-relaxed mb-12">
+                            We unite a radically multidisciplinary coalition of stakeholders
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 fade-section">
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Researchers & Academic Institutions</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Clinicians & Healthcare Practitioners</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Technologists & AI Engineers</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Policymakers & Regulatory Bodies</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Industry Partners & Tech Companies</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Consumer Representatives & Patient Advocates</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Ethicists & Social Scientists</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-charcoal/80">
+                            <span class="w-1.5 h-1.5 rounded-full bg-charcoal/30 flex-shrink-0"></span>
+                            <span>Public Health Organizations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="py-24 md:py-32">
+            <div class="max-w-3xl mx-auto px-6 md:px-12">
+                <div class="content-card text-center fade-section">
+                    <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
+                        Join the Initiative
+                    </h2>
+                    <p class="text-charcoal/70 leading-relaxed mb-10 max-w-xl mx-auto">
+                        We invite practitioners, researchers, technologists, policymakers, and industry partners
+                        to participate in this consensus process. Contribute topic proposals, data resources, and
+                        methodological expertise.
+                    </p>
+                    <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center gap-2 px-8 py-3 text-sm font-medium tracking-wide bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm shadow-lg">
+                        Take the Survey
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Founding Institutions Section - Improved Carousel -->
+        <section class="py-20 md:py-28 overflow-hidden">
+            <div class="max-w-5xl mx-auto px-6 md:px-12 mb-12">
+                <p class="text-center text-xs uppercase tracking-[0.2em] text-stone mb-2 fade-section">
+                    Founding Institutions
+                </p>
+                <p class="text-center text-sm text-charcoal/60 fade-section">
+                    Led by leading research centers globally
+                </p>
+            </div>
+
+            <!-- Carousel Container -->
+            <div class="relative">
+                <!-- Gradient masks -->
+                <div class="absolute left-0 top-0 bottom-0 w-24 md:w-40 gradient-mask-left z-10 pointer-events-none">
+                </div>
+                <div class="absolute right-0 top-0 bottom-0 w-24 md:w-40 gradient-mask-right z-10 pointer-events-none">
+                </div>
+
+                <!-- Scrolling logos -->
+                <div class="flex" id="logoCarousel">
+                    <!-- First set -->
+                    <div class="logo-item">
+                        <img src="logos/TUM.png" alt="Technical University of Munich">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/TUM_Klinkum.svg" alt="TUM University Hospital">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/MCML.jpg" alt="Munich Center for Machine Learning">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/AIML.png" alt="Australian Institute for Machine Learning">
+                        <span class="logo-location">Adelaide, Australia</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/SickKids.png" alt="Hospital for Sick Children">
+                        <span class="logo-location">Toronto, Canada</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/ICL.jpeg" alt="Imperial College London">
+                        <span class="logo-location">London, UK</span>
+                    </div>
+                    <!-- Duplicate set for seamless loop -->
+                    <div class="logo-item">
+                        <img src="logos/TUM.png" alt="Technical University of Munich">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/TUM_Klinkum.svg" alt="TUM University Hospital">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/MCML.jpg" alt="Munich Center for Machine Learning">
+                        <span class="logo-location">Munich, Germany</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/AIML.png" alt="Australian Institute for Machine Learning">
+                        <span class="logo-location">Adelaide, Australia</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/SickKids.png" alt="Hospital for Sick Children">
+                        <span class="logo-location">Toronto, Canada</span>
+                    </div>
+                    <div class="logo-item">
+                        <img src="logos/ICL.jpeg" alt="Imperial College London">
+                        <span class="logo-location">London, UK</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="search-modal" onclick="if(event.target === this) closeSearch()">
+        <div class="search-container">
+            <div class="search-input-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-charcoal/40" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search this site..."
+                    autocomplete="off">
+                <button onclick="closeSearch()" class="p-1 text-charcoal/40 hover:text-charcoal"
+                    aria-label="Close search">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="searchResults" class="search-results">
+                <div class="search-no-results">Type to search...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-charcoal/10">
+        <div class="max-w-4xl mx-auto px-6 md:px-12">
+            <div class="grid md:grid-cols-2 gap-12 mb-12">
+                <div>
+                    <h4 class="font-serif text-sm font-medium text-charcoal mb-2">COMPASS-GH</h4>
+                    <p class="text-xs text-charcoal/60 leading-relaxed">
+                        Consensus on Metrics, Priorities, And Standards for Safe General Health AI
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-serif text-sm font-medium text-charcoal mb-3">Resources</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li>
+                            <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                                class="text-charcoal/60 hover:text-charcoal transition-elegant">
+                                Survey
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-charcoal/60 hover:text-charcoal transition-elegant">
+                                Research Paper
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-charcoal/10 pt-8 text-center text-xs text-charcoal/50">
+                <p>© 2026 COMPASS-GH Initiative. A global collaboration for safe, accurate, and equitable AI in general
+                    health.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Index for Site-Wide Search -->
+    <script src="search-index.js"></script>
+
+    <script>
+        // ============ SEARCH FUNCTIONALITY ============
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchBtn = document.getElementById('searchBtn');
+
+        function openSearch() {
+            searchModal.classList.add('active');
+            searchInput.value = '';
+            searchInput.focus();
+            searchResults.innerHTML = '<div class="search-no-results">Search across all pages...</div>';
+        }
+
+        function closeSearch() {
+            searchModal.classList.remove('active');
+        }
+
+        function performSearch(query) {
+            if (!query.trim()) {
+                searchResults.innerHTML = '<div class="search-no-results">Search across all pages...</div>';
+                return;
+            }
+
+            const results = [];
+            const regex = new RegExp(query, 'gi');
+            const lowerQuery = query.toLowerCase();
+
+            // Search through the site-wide index
+            if (window.SEARCH_INDEX) {
+                window.SEARCH_INDEX.forEach((item) => {
+                    if (regex.test(item.content) || regex.test(item.section)) {
+                        const matchIndex = item.content.toLowerCase().indexOf(lowerQuery);
+                        const start = Math.max(0, matchIndex - 40);
+                        const end = Math.min(item.content.length, matchIndex + query.length + 80);
+                        let snippet = item.content.substring(start, end).replace(/\s+/g, ' ').trim();
+                        if (start > 0) snippet = '...' + snippet;
+                        if (end < item.content.length) snippet = snippet + '...';
+                        snippet = snippet.replace(regex, '<mark>$&</mark>');
+
+                        results.push({
+                            page: item.page,
+                            section: item.section,
+                            snippet: snippet,
+                            url: item.url + (item.sectionId ? '#' + item.sectionId : '')
+                        });
+                    }
+                });
+            }
+
+            if (results.length === 0) {
+                searchResults.innerHTML = `<div class="search-no-results">No results found for "${query}"</div>`;
+                return;
+            }
+
+            searchResults.innerHTML = results.map(r => `
+                <a href="${r.url}" class="search-result-item" style="display: block; text-decoration: none; color: inherit;">
+                    <div class="search-result-title">${r.section}</div>
+                    <div class="search-result-page" style="font-size: 0.7rem; color: #B8956B; margin-bottom: 0.25rem;">${r.page}</div>
+                    <div class="search-result-snippet">${r.snippet}</div>
+                </a>
+            `).join('');
+        }
+
+        // Event listeners
+        if (searchBtn) {
+            searchBtn.addEventListener('click', openSearch);
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => performSearch(e.target.value));
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeSearch();
+            });
+        }
+
+        // Keyboard shortcut: Cmd/Ctrl + K to open search
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openSearch();
+            }
+            if (e.key === 'Escape' && searchModal.classList.contains('active')) {
+                closeSearch();
+            }
+        });
+
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ============ VENN DIAGRAM ANIMATION ============
+        const vennLeft = document.getElementById('vennLeft');
+        const vennRight = document.getElementById('vennRight');
+        const vennCenter = document.getElementById('vennCenter');
+        const labelLeft = document.getElementById('labelLeft');
+        const labelRight = document.getElementById('labelRight');
+        const vennContainer = document.getElementById('vennContainer');
+        const vennDefinitions = document.getElementById('vennDefinitions');
+
+        if (vennContainer && vennLeft && vennRight && vennCenter) {
+            // Create the animation timeline
+            function createVennAnimation() {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: '#general-health',
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play reverse play reverse',
+                        onEnter: () => tl.restart(),
+                        onEnterBack: () => tl.restart()
+                    }
+                });
+
+                // Reset initial positions
+                gsap.set(vennLeft, { left: '-30%' });
+                gsap.set(vennRight, { right: '-30%' });
+                gsap.set([labelLeft, labelRight], { opacity: 0 });
+                gsap.set(vennCenter, { opacity: 0 });
+                gsap.set(vennDefinitions, { opacity: 0 });
+
+                // Animation sequence
+                tl.to(vennLeft, {
+                    left: '5%',
+                    duration: 0.8,
+                    ease: 'power2.out'
+                }, 0)
+                    .to(vennRight, {
+                        right: '5%',
+                        duration: 0.8,
+                        ease: 'power2.out'
+                    }, 0)
+                    // Labels appear
+                    .to([labelLeft, labelRight], {
+                        opacity: 1,
+                        duration: 0.4,
+                        stagger: 0.1,
+                        ease: 'power2.out'
+                    }, 0.5)
+                    // General Health label appears
+                    .to(vennCenter, {
+                        opacity: 1,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    }, 0.7)
+                    // Definitions fade in
+                    .to(vennDefinitions, {
+                        opacity: 1,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    }, 0.9);
+
+                return tl;
+            }
+
+            createVennAnimation();
+        }
+
+
+
+        // ============ COMPASS PHYSICS ============
+
+        // Generate Ticks on compass face
+        const ticksGroup = document.getElementById('ticksGroup');
+        if (ticksGroup) {
+            for (let i = 0; i < 360; i += 10) {
+                if (i % 90 === 0) continue; // Skip cardinal directions
+                const isMajor = i % 30 === 0;
+                const angle = (i - 90) * (Math.PI / 180);
+                const r1 = 172;
+                const r2 = isMajor ? 160 : 168;
+                const x1 = 200 + r1 * Math.cos(angle);
+                const y1 = 200 + r1 * Math.sin(angle);
+                const x2 = 200 + r2 * Math.cos(angle);
+                const y2 = 200 + r2 * Math.sin(angle);
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", x1);
+                line.setAttribute("y1", y1);
+                line.setAttribute("x2", x2);
+                line.setAttribute("y2", y2);
+                line.setAttribute("stroke", "#1A1F2E");
+                line.setAttribute("stroke-width", isMajor ? "1.5" : "0.5");
+                line.setAttribute("opacity", isMajor ? "0.6" : "0.3");
+                ticksGroup.appendChild(line);
+            }
+        }
+
+        // Physics Simulation Variables
+        const compassState = {
+            angle: 0,
+            velocity: 0,
+            scrollProgress: 0,
+            scrollVel: 0,
+            isLocked: false
+        };
+
+        const needleGroup = document.getElementById('needleGroup');
+        const compassAssembly = document.getElementById('compassAssembly');
+
+        if (needleGroup) {
+            // Set rotation pivot at compass center
+            gsap.set(needleGroup, { svgOrigin: "200 200" });
+
+            // Smooth oscillation using time-based sine wave
+            let time = 0;
+
+            // Scroll Trigger for progress tracking
+            ScrollTrigger.create({
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                onUpdate: (self) => {
+                    compassState.scrollProgress = self.progress;
+                }
+            });
+
+            // The Physics Loop - SMOOTH OSCILLATION
+            gsap.ticker.add(() => {
+                // Skip normal physics when locked (Join Now animation)
+                if (compassState.isLocking) return;
+
+                time += 0.05; // Smooth time increment
+
+                // Oscillation magnitude decreases as you scroll down (reversible!)
+                // At top: full jitter (magnitude = 15), at bottom: no jitter (magnitude = 0)
+                const jitterMagnitude = 15 * Math.max(0, 1 - compassState.scrollProgress);
+
+                // Smooth sine wave oscillation (no random noise = smooth left-right)
+                const oscillation = Math.sin(time * 2) * jitterMagnitude;
+
+                // Add a subtle secondary wave for more organic feel
+                const secondaryWave = Math.sin(time * 0.7) * (jitterMagnitude * 0.3);
+
+                // Calculate target angle (oscillation around 0° / North)
+                const targetAngle = oscillation + secondaryWave;
+
+                // Smooth interpolation toward target (lerp)
+                const lerpFactor = 0.1;
+                compassState.angle += (targetAngle - compassState.angle) * lerpFactor;
+
+                // Render
+                gsap.set(needleGroup, { rotation: compassState.angle });
+
+                // Compass opacity stays constant (frosted glass cards handle readability)
+            });
+
+            // Lock Compass Function (for button clicks) - animated settle then redirect
+            window.lockCompass = function (e, redirectUrl) {
+                if (e) e.preventDefault();
+                if (compassState.isLocking) return;
+                compassState.isLocking = true;
+
+                // Animation timeline: large slow -> fast small -> stop
+                const animationDuration = 1000; // 1 second for jitter (compressed)
+                const startTime = Date.now();
+
+                // Override the normal physics with custom animation
+                const animateLock = () => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / animationDuration, 1);
+
+                    // Frequency increases from 2 to 10, magnitude decreases from 35 to 0
+                    const frequency = 2 + progress * 8;
+                    const magnitude = 35 * (1 - Math.pow(progress, 0.4));
+
+                    // Calculate angle with changing frequency and magnitude
+                    const angle = Math.sin(elapsed * 0.015 * frequency) * magnitude;
+
+                    gsap.set(needleGroup, { rotation: angle });
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animateLock);
+                    } else {
+                        // Animation complete - snap to North and open survey
+                        gsap.to({ angle: angle }, {
+                            angle: 0,
+                            duration: 0.2,
+                            ease: "power2.out",
+                            onUpdate: function () {
+                                gsap.set(needleGroup, { rotation: this.targets()[0].angle });
+                            },
+                            onComplete: () => {
+                                // Open survey immediately after settling
+                                if (redirectUrl) {
+                                    window.open(redirectUrl, '_blank');
+                                }
+                                // Keep locked at 0 for 5 seconds before allowing reset
+                                setTimeout(() => {
+                                    compassState.isLocking = false;
+                                }, 5000);
+                            }
+                        });
+                    }
+                };
+
+                animateLock();
+            };
+
+            // Add click handlers to Join Now buttons
+            document.querySelectorAll('a[href*="tally.so"]').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    window.lockCompass(e, this.href);
+                });
+            });
+        }
+
+        // ============ FADE IN SECTIONS ============
+        document.querySelectorAll('.fade-section').forEach((section) => {
+            gsap.fromTo(section,
+                { opacity: 0, y: 20 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: section,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // ============ LOGO CAROUSEL ============
+        const carousel = document.getElementById('logoCarousel');
+        if (carousel) {
+            const logoItems = carousel.querySelectorAll('.logo-item');
+            const totalLogos = logoItems.length / 2;
+
+            let oneSetWidth = 0;
+            for (let i = 0; i < totalLogos; i++) {
+                oneSetWidth += logoItems[i].offsetWidth;
+            }
+
+            gsap.to(carousel, {
+                x: -oneSetWidth,
+                duration: 30,
+                ease: 'none',
+                repeat: -1,
+                modifiers: {
+                    x: gsap.utils.unitize(x => parseFloat(x) % oneSetWidth)
+                }
+            });
+
+            carousel.addEventListener('mouseenter', () => {
+                gsap.to(carousel, { timeScale: 0, duration: 0.3 });
+            });
+            carousel.addEventListener('mouseleave', () => {
+                gsap.to(carousel, { timeScale: 1, duration: 0.3 });
+            });
+        }
+
+        // Refresh ScrollTrigger on load
+        window.addEventListener('load', () => {
+            ScrollTrigger.refresh();
+        });
+    </script>
 </body>
+
 </html>
