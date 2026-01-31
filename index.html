@@ -88,9 +88,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             padding: 0 2rem;
-            padding-top: 10px;
+            position: relative;
         }
 
         .logo-item img {
@@ -113,8 +113,8 @@
             letter-spacing: 0.02em;
             text-align: center;
             white-space: nowrap;
-            margin-top: auto;
-            padding-bottom: 10px;
+            position: absolute;
+            bottom: 10px;
         }
 
         /* Gradient masks for carousel */
@@ -454,13 +454,13 @@
 
         /* Left label: dusty blue for Public Health */
         .venn-label-left {
-            left: 22%;
+            left: 28%;
             color: #5B7B8A;
         }
 
         /* Right label: sage green for Clinical Medicine */
         .venn-label-right {
-            left: 78%;
+            left: 72%;
             color: #6B8B6B;
         }
 
@@ -652,7 +652,7 @@
     <main class="pt-0">
         <!-- COVER PAGE (Full Screen) -->
         <section class="cover-page">
-            <div class="max-w-4xl mx-auto px-6 md:px-12 text-center">
+            <div class="max-w-6xl mx-auto px-6 md:px-12 text-center">
                 <!-- COMPASS-GH Title (large, on top) -->
                 <h1
                     class="font-serif text-5xl md:text-6xl lg:text-7xl font-medium text-charcoal mb-6 fade-section tracking-wide">
@@ -701,7 +701,7 @@
 
         <!-- Main Content Starts Here -->
         <section id="about" class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card text-center fade-section">
                     <p class="text-charcoal/80 leading-relaxed text-lg">
                         Defining safety standards for artificial intelligence in everyday health queries,
@@ -712,13 +712,13 @@
         </section>
 
         <!-- Divider -->
-        <div class="max-w-4xl mx-auto px-6 md:px-12">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="h-px bg-gradient-to-r from-transparent via-charcoal/15 to-transparent"></div>
         </div>
 
         <!-- Venn Diagram Section -->
         <section id="general-health" class="py-20 md:py-28 overflow-hidden">
-            <div class="max-w-4xl mx-auto px-6 md:px-12">
+            <div class="max-w-6xl mx-auto px-6 md:px-12">
                 <div class="content-card venn-section">
 
                     <!-- Venn Diagram -->
@@ -760,13 +760,13 @@
         </section>
 
         <!-- Divider -->
-        <div class="max-w-4xl mx-auto px-6 md:px-12">
+        <div class="max-w-6xl mx-auto px-6 md:px-12">
             <div class="h-px bg-gradient-to-r from-transparent via-charcoal/15 to-transparent"></div>
         </div>
 
         <!-- Challenge Section -->
         <section class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card">
                     <div class="fade-section">
                         <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
@@ -821,7 +821,7 @@
 
         <!-- Approach Section -->
         <section class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card">
                     <div class="fade-section">
                         <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
@@ -864,7 +864,7 @@
 
         <!-- Research Phases Section -->
         <section class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card">
                     <div class="fade-section">
                         <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
@@ -918,7 +918,7 @@
 
         <!-- Expected Outcomes Section -->
         <section class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card">
                     <div class="fade-section">
                         <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
@@ -957,7 +957,7 @@
 
         <!-- Global Collaboration Section -->
         <section class="py-20 md:py-28">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card">
                     <div class="fade-section">
                         <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
@@ -1008,12 +1008,12 @@
 
         <!-- CTA Section -->
         <section class="py-24 md:py-32">
-            <div class="max-w-3xl mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto px-6 md:px-12">
                 <div class="content-card text-center fade-section">
                     <h2 class="font-serif text-3xl md:text-4xl font-medium text-charcoal mb-6">
                         Join the Initiative
                     </h2>
-                    <p class="text-charcoal/70 leading-relaxed mb-10 max-w-xl mx-auto">
+                    <p class="text-charcoal/70 leading-relaxed mb-10 max-w-2xl mx-auto">
                         We invite practitioners, researchers, technologists, policymakers, and industry partners
                         to participate in this consensus process. Contribute topic proposals, data resources, and
                         methodological expertise.
@@ -1033,15 +1033,6 @@
 
         <!-- Founding Institutions Section - Improved Carousel -->
         <section class="py-20 md:py-28 overflow-hidden">
-            <div class="max-w-5xl mx-auto px-6 md:px-12 mb-12">
-                <p class="text-center text-xs uppercase tracking-[0.2em] text-stone mb-2 fade-section">
-                    Founding Institutions
-                </p>
-                <p class="text-center text-sm text-charcoal/60 fade-section">
-                    Led by leading research centers globally
-                </p>
-            </div>
-
             <!-- Carousel Container -->
             <div class="relative">
                 <!-- Gradient masks -->
@@ -1066,6 +1057,10 @@
                         <span class="logo-location">Munich, Germany</span>
                     </div>
                     <div class="logo-item">
+                        <img src="logos/nature_health.svg" alt="Nature Health">
+                        <span class="logo-location">Nature Health</span>
+                    </div>
+                    <div class="logo-item">
                         <img src="logos/AIML.png" alt="Australian Institute for Machine Learning">
                         <span class="logo-location">Adelaide, Australia</span>
                     </div>
@@ -1074,7 +1069,7 @@
                         <span class="logo-location">Toronto, Canada</span>
                     </div>
                     <div class="logo-item">
-                        <img src="logos/ICL.jpeg" alt="Imperial College London">
+                        <img src="logos/ICL.png" alt="Imperial College London">
                         <span class="logo-location">London, UK</span>
                     </div>
                     <!-- Duplicate set for seamless loop -->
@@ -1091,6 +1086,10 @@
                         <span class="logo-location">Munich, Germany</span>
                     </div>
                     <div class="logo-item">
+                        <img src="logos/nature_health.svg" alt="Nature Health">
+                        <span class="logo-location">Nature Health</span>
+                    </div>
+                    <div class="logo-item">
                         <img src="logos/AIML.png" alt="Australian Institute for Machine Learning">
                         <span class="logo-location">Adelaide, Australia</span>
                     </div>
@@ -1099,7 +1098,7 @@
                         <span class="logo-location">Toronto, Canada</span>
                     </div>
                     <div class="logo-item">
-                        <img src="logos/ICL.jpeg" alt="Imperial College London">
+                        <img src="logos/ICL.png" alt="Imperial College London">
                         <span class="logo-location">London, UK</span>
                     </div>
                 </div>
@@ -1292,12 +1291,12 @@
 
                 // Animation sequence
                 tl.to(vennLeft, {
-                    left: '5%',
+                    left: '10%',
                     duration: 0.8,
                     ease: 'power2.out'
                 }, 0)
                     .to(vennRight, {
-                        right: '5%',
+                        right: '10%',
                         duration: 0.8,
                         ease: 'power2.out'
                     }, 0)
