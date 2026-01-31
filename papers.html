@@ -341,7 +341,7 @@
                     class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">Contact</a>
             </div>
 
-            <!-- Right Side: Search + Join Now -->
+            <!-- Right Side: Search + Join Now + Mobile Menu Button -->
             <div class="flex items-center gap-4">
                 <button id="searchBtn" class="p-2 text-charcoal/60 hover:text-charcoal transition-elegant"
                     aria-label="Search">
@@ -353,7 +353,42 @@
                 </button>
 
                 <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
-                    class="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
+                    class="hidden sm:inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
+                    Join Now
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-charcoal/70 hover:text-charcoal transition-elegant"
+                    aria-label="Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown (Accordion Style) -->
+        <div id="mobileMenu"
+            class="hidden md:hidden bg-cream/95 backdrop-blur-sm border-b border-charcoal/10 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="index.html#about"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">About</a>
+                <a href="papers.html"
+                    class="text-base font-medium text-charcoal hover:text-charcoal mobile-link">Papers</a>
+                <a href="people.html"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">People</a>
+                <a href="contact.html"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">Contact</a>
+
+                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                    class="sm:hidden inline-flex items-center gap-2 text-base font-medium text-gold hover:text-gold/80 mobile-link">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -364,6 +399,28 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        // Mobile Menu Logic (Dropdown)
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        // Close on link click
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 
     <!-- Main Content -->
     <main class="pt-24 pb-24 relative z-10">
