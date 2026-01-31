@@ -194,6 +194,13 @@
             opacity: 0.2;
         }
 
+        @media (max-width: 768px) {
+            .compass-assembly {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
         /* Cover Page Styles */
         .cover-page {
             min-height: 100vh;
@@ -535,7 +542,7 @@
     <!-- FIXED BACKGROUND: The 3D Compass Assembly -->
     <div class="compass-scene">
         <div class="compass-assembly" id="compassAssembly">
-            <svg width="550" height="550" viewBox="0 0 400 400" overflow="visible">
+            <svg width="100%" height="100%" viewBox="0 0 400 400" overflow="visible">
                 <!-- 1. The "Thickness" (Cylinder Side) -->
                 <circle cx="200" cy="212" r="180" class="compass-rim-side" />
                 <!-- 2. The Main Face (Ceramic) -->
@@ -1101,6 +1108,27 @@
         </div>
     </div>
 
+    <!-- Join Animation Message Overlay -->
+    <div id="joinMessage" class="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none opacity-0"
+        aria-hidden="true">
+        <!-- Message Container: increased max-w from 2xl to 4xl to allow 2-line text -->
+        <div
+            class="p-4 md:p-8 max-w-4xl text-center transform scale-90 -translate-y-60 md:-translate-y-80 relative z-[70]">
+            <!-- Font: Cormorant Garamond -->
+            <h3
+                class="font-serif text-3xl md:text-5xl text-charcoal mb-4 md:mb-6 drop-shadow-md font-medium tracking-wide">
+                Finding True
+                North</h3>
+            <!-- Font: Cormorant Garamond Italic (Matching 'We have entered the era of...') -->
+            <!-- Removing inner max-w constraint or making it matches parent -->
+            <p class="font-serif text-xl md:text-3xl text-charcoal/90 italic leading-relaxed drop-shadow-md mx-auto">
+                "With your participation, we are getting closer to the <span
+                    class="text-gold not-italic font-medium">correct
+                    direction</span> in General Health AI."
+            </p>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="py-12 border-t border-charcoal/10">
         <div class="max-w-4xl mx-auto px-6 md:px-12">
@@ -1398,55 +1426,109 @@
             });
 
             // Lock Compass Function (for button clicks) - animated settle then redirect
+            // Lock Compass Function (for button clicks) - animated settle then redirect
             window.lockCompass = function (e, redirectUrl) {
                 if (e) e.preventDefault();
                 if (compassState.isLocking) return;
                 compassState.isLocking = true;
 
-                // Animation timeline: large slow -> fast small -> stop
-                const animationDuration = 1000; // 1 second for jitter (compressed)
-                const startTime = Date.now();
+                // Elements to animate
+                const mainContent = document.querySelector('main');
+                const nav = document.querySelector('nav');
+                const footer = document.querySelector('footer');
+                const joinMessage = document.getElementById('joinMessage');
+                const messageCard = joinMessage.querySelector('div');
 
-                // Override the normal physics with custom animation
-                const animateLock = () => {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / animationDuration, 1);
+                // timeline
+                const tl = gsap.timeline();
 
-                    // Frequency increases from 2 to 10, magnitude decreases from 35 to 0
-                    const frequency = 2 + progress * 8;
-                    const magnitude = 35 * (1 - Math.pow(progress, 0.4));
+                // 1. Focus State: Zoom compass, blur background, fade in message
+                // FASTER ZOOM (0.8s -> 0.5s)
+                tl.to(compassAssembly, {
+                    scale: 1.3,
+                    opacity: 1,
+                    zIndex: 50, // Bring above everything
+                    duration: 0.5,
+                    ease: "power2.inOut"
+                }, 0)
+                    .to([mainContent, nav, footer], {
+                        filter: "blur(8px)",
+                        opacity: 0.4,
+                        duration: 0.5,
+                        ease: "power2.inOut"
+                    }, 0)
+                    .to(joinMessage, {
+                        autoAlpha: 1, // handles opacity and visibility
+                        duration: 0.4
+                    }, 0.1) // slightly delayed start
+                    .to(messageCard, {
+                        scale: 1,
+                        duration: 0.5,
+                        ease: "back.out(1.7)"
+                    }, 0.1);
 
-                    // Calculate angle with changing frequency and magnitude
-                    const angle = Math.sin(elapsed * 0.015 * frequency) * magnitude;
+                // 2. Jitter Animation (Runs in parallel but customized manually for physics feel)
+                const animationDuration = 2500; // Increased to 2.5s to read the message
+                // DELAYED START for jitter logic
+                const jitterDelay = 300; // 300ms delay so zoom happens first
 
-                    gsap.set(needleGroup, { rotation: angle });
+                setTimeout(() => {
+                    const startTime = Date.now();
 
-                    if (progress < 1) {
-                        requestAnimationFrame(animateLock);
-                    } else {
-                        // Animation complete - snap to North and open survey
-                        gsap.to({ angle: angle }, {
-                            angle: 0,
-                            duration: 0.2,
-                            ease: "power2.out",
-                            onUpdate: function () {
-                                gsap.set(needleGroup, { rotation: this.targets()[0].angle });
-                            },
-                            onComplete: () => {
-                                // Open survey immediately after settling
-                                if (redirectUrl) {
-                                    window.open(redirectUrl, '_blank');
+                    const animateLock = () => {
+                        const elapsed = Date.now() - startTime;
+                        const progress = Math.min(elapsed / animationDuration, 1);
+
+                        // Jitter logic:
+                        // Start wild, then settle.
+                        if (progress < 1) {
+                            // Frequency increases (vibration gets tighter)
+                            const frequency = 2 + progress * 15;
+                            // Magnitude decreases (swing gets smaller)
+                            const magnitude = 35 * (1 - Math.pow(progress, 0.3));
+
+                            const angle = Math.sin(elapsed * 0.015 * frequency) * magnitude;
+                            gsap.set(needleGroup, { rotation: angle });
+                            requestAnimationFrame(animateLock);
+                        } else {
+                            // 3. Stabilization Phase (Snap to North)
+                            gsap.to(needleGroup, {
+                                rotation: 0,
+                                duration: 0.5,
+                                ease: "elastic.out(1, 0.5)",
+                                onComplete: () => {
+                                    // 4. Action: Open Link
+                                    if (redirectUrl) {
+                                        window.open(redirectUrl, '_blank');
+                                    }
+
+                                    // 5. Reset Animation (After a delay)
+                                    gsap.delayedCall(1.5, () => {
+                                        // Reverse the focus state
+                                        gsap.to(joinMessage, { autoAlpha: 0, duration: 0.5 });
+                                        gsap.to(messageCard, { scale: 0.9, duration: 0.5 });
+                                        gsap.to([mainContent, nav, footer], {
+                                            filter: "blur(0px)",
+                                            opacity: 1,
+                                            duration: 0.8
+                                        });
+                                        gsap.to(compassAssembly, {
+                                            scale: 1,
+                                            opacity: 0.2, // Back to idle opacity
+                                            zIndex: "auto",
+                                            duration: 0.8,
+                                            onComplete: () => {
+                                                compassState.isLocking = false;
+                                            }
+                                        });
+                                    });
                                 }
-                                // Keep locked at 0 for 5 seconds before allowing reset
-                                setTimeout(() => {
-                                    compassState.isLocking = false;
-                                }, 5000);
-                            }
-                        });
-                    }
-                };
-
-                animateLock();
+                            });
+                        }
+                    };
+                    // Start the jitter loop
+                    animateLock();
+                }, jitterDelay);
             };
 
             // Add click handlers to Join Now buttons

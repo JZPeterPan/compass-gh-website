@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
 
     <!-- Tailwind CSS -->
@@ -33,7 +33,7 @@
                     },
                     fontFamily: {
                         serif: ['Cormorant Garamond', 'serif'],
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
                     },
                 }
             }
@@ -42,7 +42,7 @@
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background-color: #FAF9F7;
             color: #1A1F2E;
         }
@@ -109,7 +109,14 @@
             transform-style: preserve-3d;
             transform: rotateX(35deg);
             will-change: transform;
-            opacity: 0.2;
+            opacity: 0.15;
+        }
+
+        @media (max-width: 768px) {
+            .compass-assembly {
+                width: 300px;
+                height: 300px;
+            }
         }
 
         .highlight-gold {
@@ -279,7 +286,7 @@
     <!-- FIXED BACKGROUND: The 3D Compass Assembly -->
     <div class="compass-scene">
         <div class="compass-assembly" id="compassAssembly">
-            <svg width="550" height="550" viewBox="0 0 400 400" overflow="visible">
+            <svg width="100%" height="100%" viewBox="0 0 400 400" overflow="visible">
                 <circle cx="200" cy="212" r="180" class="compass-rim-side" />
                 <circle cx="200" cy="200" r="180" class="compass-face" />
                 <circle cx="200" cy="200" r="145" fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="1" />
@@ -335,6 +342,7 @@
                 </button>
 
                 <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                    onclick="lockCompass(event, 'https://tally.so/r/MeEQVA')"
                     class="hidden sm:inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -370,6 +378,7 @@
                     class="text-base font-medium text-charcoal hover:text-charcoal mobile-link">Contact</a>
 
                 <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                    onclick="lockCompass(event, 'https://tally.so/r/MeEQVA')"
                     class="sm:hidden inline-flex items-center gap-2 text-base font-medium text-gold hover:text-gold/80 mobile-link">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -451,8 +460,29 @@
         </div>
     </div>
 
+    <!-- Join Animation Message Overlay -->
+    <div id="joinMessage" class="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none opacity-0"
+        aria-hidden="true">
+        <!-- Message Container: increased max-w from 2xl to 4xl to allow 2-line text -->
+        <div
+            class="p-4 md:p-8 max-w-4xl text-center transform scale-90 -translate-y-60 md:-translate-y-80 relative z-[70]">
+            <!-- Font: Cormorant Garamond -->
+            <h3
+                class="font-serif text-3xl md:text-5xl text-charcoal mb-4 md:mb-6 drop-shadow-md font-medium tracking-wide">
+                Finding True
+                North</h3>
+            <!-- Font: Cormorant Garamond Italic (Matching 'We have entered the era of...') -->
+            <!-- Removing inner max-w constraint or making it matches parent -->
+            <p class="font-serif text-xl md:text-3xl text-charcoal/90 italic leading-relaxed drop-shadow-md mx-auto">
+                "With your participation, we are getting closer to the <span
+                    class="text-gold not-italic font-medium">correct
+                    direction</span> in General Health AI."
+            </p>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="absolute bottom-0 left-0 right-0 py-6 border-t border-charcoal/10 bg-cream/80 backdrop-blur-sm z-10">
+    <footer class="fixed bottom-0 left-0 right-0 py-6 border-t border-charcoal/10 bg-cream/80 backdrop-blur-sm z-10">
         <div class="max-w-4xl mx-auto px-6 md:px-12 text-center text-xs text-charcoal/50">
             <p>© 2026 COMPASS-GH Initiative. A global collaboration for safe, accurate, and equitable AI in general
                 health.</p>
@@ -521,16 +551,79 @@
         }
 
         // Simple gentle oscillation for the compass needle
+        // Physics Variables
+        const compassState = {
+            isLocking: false
+        };
+
         const needleGroup = document.getElementById('needleGroup');
+        const compassAssembly = document.getElementById('compassAssembly');
+
         if (needleGroup) {
             gsap.set(needleGroup, { svgOrigin: "200 200" });
             let time = 0;
             gsap.ticker.add(() => {
+                if (compassState.isLocking) return;
                 time += 0.03;
                 const angle = Math.sin(time) * 8;
                 gsap.set(needleGroup, { rotation: angle });
             });
         }
+
+        // Lock Compass Function
+        window.lockCompass = function (e, redirectUrl) {
+            if (e) e.preventDefault();
+            if (compassState.isLocking) return;
+            compassState.isLocking = true;
+
+            const mainContent = document.querySelector('main');
+            const nav = document.querySelector('nav');
+            const footer = document.querySelector('footer');
+            const joinMessage = document.getElementById('joinMessage');
+            const messageCard = joinMessage.querySelector('div');
+
+            const tl = gsap.timeline();
+
+            tl.to(compassAssembly, { scale: 1.3, opacity: 1, zIndex: 50, duration: 0.5, ease: "power2.inOut" }, 0)
+                .to([mainContent, nav, footer], { filter: "blur(8px)", opacity: 0.4, duration: 0.5, ease: "power2.inOut" }, 0)
+                .to(joinMessage, { autoAlpha: 1, duration: 0.4 }, 0.1)
+                .to(messageCard, { scale: 1, duration: 0.5, ease: "back.out(1.7)" }, 0.1);
+
+            const animationDuration = 2500;
+            const jitterDelay = 300;
+
+            setTimeout(() => {
+                const startTime = Date.now();
+                const animateLock = () => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / animationDuration, 1);
+
+                    if (progress < 1) {
+                        const frequency = 2 + progress * 15;
+                        const magnitude = 35 * (1 - Math.pow(progress, 0.3));
+                        const angle = Math.sin(elapsed * 0.015 * frequency) * magnitude;
+                        gsap.set(needleGroup, { rotation: angle });
+                        requestAnimationFrame(animateLock);
+                    } else {
+                        gsap.to(needleGroup, {
+                            rotation: 0,
+                            duration: 0.5,
+                            ease: "elastic.out(1, 0.5)",
+                            onComplete: () => {
+                                if (redirectUrl) window.open(redirectUrl, '_blank');
+                                gsap.delayedCall(1.5, () => {
+                                    gsap.to(joinMessage, { autoAlpha: 0, duration: 0.5 });
+                                    gsap.to(messageCard, { scale: 0.9, duration: 0.5 });
+                                    gsap.to([mainContent, nav, footer], { filter: "blur(0px)", opacity: 1, duration: 0.8 });
+                                    gsap.to(compassAssembly, { scale: 1, opacity: 0.15, zIndex: "auto", duration: 0.8, onComplete: () => { compassState.isLocking = false; } });
+                                });
+                            }
+                        });
+                    }
+                };
+                animateLock();
+            }, jitterDelay);
+        };
 
         // Fade in sections
         document.querySelectorAll('.fade-section').forEach((section) => {
