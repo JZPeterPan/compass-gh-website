@@ -101,24 +101,7 @@
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Logo scroll animation */
-        @keyframes scroll-logos {
-            0% {
-                transform: translateX(0);
-            }
 
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-scroll-logos {
-            animation: scroll-logos 40s linear infinite;
-        }
-
-        .animate-scroll-logos:hover {
-            animation-play-state: paused;
-        }
 
         /* Logo container for normalized sizing */
         .logo-item {
@@ -700,7 +683,7 @@
             </div>
 
             <!-- Scrolling logos -->
-            <div class="flex animate-scroll-logos" id="logoCarousel">
+            <div class="flex" id="logoCarousel">
                 <!-- First set -->
                 <div class="logo-item">
                     <img src="logos/TUM.png" alt="Technical University of Munich">
@@ -927,6 +910,35 @@
                 animateLock();
             }, jitterDelay);
         };
+
+        // ============ LOGO CAROUSEL ============
+        const carousel = document.getElementById('logoCarousel');
+        if (carousel) {
+            const logoItems = carousel.querySelectorAll('.logo-item');
+            const totalLogos = logoItems.length / 2;
+
+            let oneSetWidth = 0;
+            for (let i = 0; i < totalLogos; i++) {
+                oneSetWidth += logoItems[i].offsetWidth;
+            }
+
+            gsap.to(carousel, {
+                x: -oneSetWidth,
+                duration: 30,
+                ease: 'none',
+                repeat: -1,
+                modifiers: {
+                    x: gsap.utils.unitize(x => parseFloat(x) % oneSetWidth)
+                }
+            });
+
+            carousel.addEventListener('mouseenter', () => {
+                gsap.to(carousel, { timeScale: 0, duration: 0.3 });
+            });
+            carousel.addEventListener('mouseleave', () => {
+                gsap.to(carousel, { timeScale: 1, duration: 0.3 });
+            });
+        }
 
         // Fade in sections
         document.querySelectorAll('.fade-section').forEach((section, i) => {
