@@ -5,8 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COMPASS-GH | Consensus for Safe General Health AI</title>
+    <link rel="icon" href="logo.jpeg" type="image/jpeg">
     <meta name="description"
         content="A global academic initiative defining safety standards for AI in general health queries.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://compass-gh.net/">
+    <meta property="og:title" content="COMPASS-GH | Consensus for Safe General Health AI">
+    <meta property="og:description"
+        content="A global academic initiative defining safety standards for AI in general health queries.">
+    <meta property="og:image" content="https://compass-gh.net/logos/logo.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://compass-gh.net/">
+    <meta property="twitter:title" content="COMPASS-GH | Consensus for Safe General Health AI">
+    <meta property="twitter:description"
+        content="A global academic initiative defining safety standards for AI in general health queries.">
+    <meta property="twitter:image" content="https://compass-gh.net/logos/logo.jpeg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,6 +31,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="logos/logo.jpeg">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -696,10 +716,32 @@
 
 
                 <!-- Full Name with Highlighted Letters -->
-                <p id="heroSubtitle"
-                    class="font-serif text-2xl md:text-4xl lg:text-5xl font-light text-charcoal/80 leading-relaxed fade-section max-w-5xl mx-auto">
-                    <!-- Dynamic Subtitle inserted via JS -->
-                </p>
+                <!-- Grid container for overlapping subtitles -->
+                <div id="heroSubtitleContainer"
+                    class="relative grid place-items-center max-w-5xl mx-auto h-[120px] md:h-[160px]">
+
+                    <!-- Subtitle 1 (Initial visible) -->
+                    <p id="subtitle1"
+                        class="subtitle-slide font-serif text-2xl md:text-4xl lg:text-5xl font-light text-charcoal/80 leading-relaxed row-start-1 col-start-1 w-full"
+                        style="opacity: 1;">
+                        <span class="highlight-gold">Co</span>nsensus on
+                        <span class="highlight-gold">M</span>etrics,
+                        <span class="highlight-gold">P</span>riorities,
+                        <span class="highlight-gold">A</span>nd
+                        <span class="highlight-gold">S</span>tandards for
+                        <span class="highlight-gold">S</span>afe
+                        <span class="highlight-gold">G</span>eneral
+                        <span class="highlight-gold">H</span>ealth AI
+                    </p>
+
+                    <!-- Subtitle 2 (Initial hidden) -->
+                    <p id="subtitle2"
+                        class="subtitle-slide font-serif text-2xl md:text-3xl lg:text-5xl font-light text-charcoal/80 leading-relaxed row-start-1 col-start-1 w-full"
+                        style="opacity: 0;">
+                        A Consensus Roadmap for Defining Standards for Safe, Accurate and Equitable AI in General Health
+                        Queries
+                    </p>
+                </div>
 
                 <!-- Join Now Button with Hover Reveal -->
                 <div class="mt-10 fade-section relative group inline-block">
@@ -798,6 +840,7 @@
                     <!-- Venn Diagram -->
                     <div class="venn-container" id="vennContainer">
                         <div class="venn-ellipse venn-ellipse-left" id="vennLeft"></div>
+
                         <div class="venn-ellipse venn-ellipse-right" id="vennRight"></div>
                         <div class="venn-label venn-label-left" id="labelLeft">Public<br>Health</div>
                         <div class="venn-label venn-label-right" id="labelRight">Clinical<br>Medicine</div>
@@ -1592,34 +1635,107 @@
         });
 
         // ============ DYNAMIC SUBTITLE ============
-        const heroSubtitle = document.getElementById('heroSubtitle');
-        if (heroSubtitle) {
-            const subtitles = [
-                {
-                    type: 'html',
-                    content: `<span class="highlight-gold">C</span>onsensus on 
-                              <span class="highlight-gold">M</span>etrics, 
-                              <span class="highlight-gold">P</span>riorities, 
-                              <span class="highlight-gold">A</span>nd 
-                              <span class="highlight-gold">S</span>tandards for 
-                              <span class="highlight-gold">S</span>afe 
-                              <span class="highlight-gold">G</span>eneral 
-                              <span class="highlight-gold">H</span>ealth AI`
-                },
-                {
-                    type: 'text',
-                    content: "A Consensus Roadmap for Defining Standards for Safe, Accurate and Equitable AI in General Health Queries"
+        const subtitle1 = document.getElementById('subtitle1');
+        const subtitle2 = document.getElementById('subtitle2');
+
+        if (subtitle1 && subtitle2) {
+            const cycleDuration = 9000; // Time to read
+            const typeSpeed = 0.03;     // Speed per character
+
+            // Recursive function to split text into characters
+            const prepareTextForTyping = (node) => {
+                if (node.nodeType === 3) { // Text node
+                    // Collapse whitespace: replace newlines/tabs/multi-spaces with single space
+                    const text = node.textContent.replace(/\s+/g, ' ');
+
+                    // If it's pure whitespace (just a space), skipping it prevents "typing a space" at start of line
+                    // But we might need spaces between words.
+                    // The replace above turns " \n   " into " ".
+                    // If the text node was purely indentation, it becomes " ".
+                    // We can check if the parent is a block element or inline.
+                    // A safer bet for this specific layout is to trim the result if it's the *start* or *end* of the block,
+                    // but that's hard to know here.
+                    // Let's just create the span for the space. A single space types very fast.
+                    // BUT, if we have lots of indentation nodes, we get lots of single space spans.
+                    // Let's trigger a check: if the text is JUST " ", check if previous sibling is a block or null?
+                    // Actually, for this specific case, the indentation is significant.
+                    // Let's trim the string *if* it's purely whitespace.
+                    if (!text.trim()) return;
+
+                    const fragment = document.createDocumentFragment();
+                    const chars = text.split('');
+
+                    chars.forEach(char => {
+                        const span = document.createElement('span');
+                        span.textContent = char;
+                        span.className = 'char';
+                        span.style.opacity = '0'; // Start hidden
+                        fragment.appendChild(span);
+                    });
+
+                    node.parentNode.replaceChild(fragment, node);
+                } else if (node.nodeType === 1) { // Element node
+                    // Recursively process children
+                    Array.from(node.childNodes).forEach(prepareTextForTyping);
                 }
-            ];
+            };
 
-            // Randomly select one
-            const selected = subtitles[Math.floor(Math.random() * subtitles.length)];
+            // Initialize
+            const initSubtitle = (el) => {
+                prepareTextForTyping(el);
+                el.style.opacity = '1'; // Ensure container is visible
+            };
 
-            if (selected.type === 'html') {
-                heroSubtitle.innerHTML = selected.content;
-            } else {
-                heroSubtitle.textContent = selected.content;
-            }
+            initSubtitle(subtitle1);
+            initSubtitle(subtitle2);
+
+            let showingFirst = true;
+
+            // Initial State: Type in the first one immediately
+            gsap.to(subtitle1.querySelectorAll('.char'), {
+                opacity: 1,
+                duration: 0.05,
+                stagger: {
+                    each: typeSpeed,
+                    ease: "none"
+                },
+                delay: 0.2 // Slight delay for visual polish on load
+            });
+
+            const cycleSubtitles = () => {
+                const outgoing = showingFirst ? subtitle1 : subtitle2;
+                const incoming = showingFirst ? subtitle2 : subtitle1;
+                const incomingChars = incoming.querySelectorAll('.char');
+
+                // 1. Fade out outgoing container completely
+                gsap.to(outgoing, {
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                        // Reset outgoing chars for next time
+                        gsap.set(outgoing.querySelectorAll('.char'), { opacity: 0 });
+                    }
+                });
+
+                // 2. Prepare incoming container
+                gsap.set(incoming, { opacity: 1 });
+
+                // 3. Type in incoming characters
+                gsap.to(incomingChars, {
+                    opacity: 1,
+                    duration: 0.05, // Fast fade-in per char
+                    stagger: {
+                        each: typeSpeed,
+                        ease: "none"
+                    },
+                    delay: 0.6 // Wait for outgoing to fade a bit
+                });
+
+                showingFirst = !showingFirst;
+            };
+
+            // Start cycling
+            setInterval(cycleSubtitles, cycleDuration);
         }
     </script>
 </body>
