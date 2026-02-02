@@ -356,8 +356,7 @@
                     </svg>
                 </button>
 
-                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
-                    onclick="lockCompass(event, 'https://tally.so/r/MeEQVA')"
+                <a href="survey.html" onclick="lockCompass(event, 'survey.html')"
                     class="hidden sm:inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -392,8 +391,7 @@
                 <a href="contact.html"
                     class="text-base font-medium text-charcoal hover:text-charcoal mobile-link">Contact</a>
 
-                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
-                    onclick="lockCompass(event, 'https://tally.so/r/MeEQVA')"
+                <a href="survey.html" onclick="lockCompass(event, 'survey.html')"
                     class="sm:hidden inline-flex items-center gap-2 text-base font-medium text-gold hover:text-gold/80 mobile-link">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -625,7 +623,7 @@
                             duration: 0.5,
                             ease: "elastic.out(1, 0.5)",
                             onComplete: () => {
-                                if (redirectUrl) window.open(redirectUrl, '_blank');
+                                if (redirectUrl) window.location.href = redirectUrl;
                                 gsap.delayedCall(1.5, () => {
                                     gsap.to(joinMessage, { autoAlpha: 0, duration: 0.5 });
                                     gsap.to(messageCard, { scale: 0.9, duration: 0.5 });

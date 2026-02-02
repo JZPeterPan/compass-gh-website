@@ -630,7 +630,7 @@
                 </button>
 
                 <!-- Join Now Button hiding on very small screens if needed, but keeping visible based on design -->
-                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                <a href="survey.html"
                     class="hidden sm:inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -667,7 +667,7 @@
 
                 <!-- Explicit Join Now for mobile if needed, though header button is visible on small screens now too. 
                      Keeping it here ensures easy access if the header one is hidden on very small devices or preferred here. -->
-                <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                <a href="survey.html"
                     class="sm:hidden inline-flex items-center gap-2 text-base font-medium text-gold hover:text-gold/80 mobile-link">
                     Join Now
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -745,7 +745,7 @@
 
                 <!-- Join Now Button with Hover Reveal -->
                 <div class="mt-10 fade-section relative group inline-block">
-                    <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                    <a href="survey.html"
                         class="join-now-btn relative z-10 inline-flex items-center gap-2 px-8 py-4 text-lg font-medium tracking-wide bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm shadow-md">
                         Join Now
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
@@ -1035,7 +1035,7 @@
                             </p>
                         </div>
                         <div class="md:w-auto flex-shrink-0">
-                            <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
+                            <a href="survey.html"
                                 class="inline-flex items-center gap-2 px-8 py-4 text-lg font-medium tracking-wide bg-gold text-cream hover:bg-gold/90 transition-elegant rounded-sm shadow-md">
                                 Join Now
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
@@ -1186,8 +1186,7 @@
                     <h4 class="font-serif text-sm font-medium text-charcoal mb-3">Resources</h4>
                     <ul class="space-y-2 text-xs">
                         <li>
-                            <a href="https://tally.so/r/MeEQVA" target="_blank" rel="noopener noreferrer"
-                                class="text-charcoal/60 hover:text-charcoal transition-elegant">
+                            <a href="survey.html" class="text-charcoal/60 hover:text-charcoal transition-elegant">
                                 Survey
                             </a>
                         </li>
@@ -1542,7 +1541,7 @@
                                 onComplete: () => {
                                     // 4. Action: Open Link
                                     if (redirectUrl) {
-                                        window.open(redirectUrl, '_blank');
+                                        window.location.href = redirectUrl;
                                     }
 
                                     // 5. Reset Animation (After a delay)
@@ -1575,9 +1574,10 @@
             };
 
             // Add click handlers to Join Now buttons
-            document.querySelectorAll('a[href*="tally.so"]').forEach(btn => {
+            document.querySelectorAll('a[href*="survey.html"]').forEach(btn => {
                 btn.addEventListener('click', function (e) {
-                    window.lockCompass(e, this.href);
+                    // Pass the regular href (survey.html) to the lock function
+                    window.lockCompass(e, this.getAttribute('href'));
                 });
             });
         }
