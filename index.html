@@ -1601,37 +1601,58 @@
         });
 
         // ============ LOGO CAROUSEL ============
-        const carousel = document.getElementById('logoCarousel');
-        if (carousel) {
-            const logoItems = carousel.querySelectorAll('.logo-item');
-            const totalLogos = logoItems.length / 2;
-
-            let oneSetWidth = 0;
-            for (let i = 0; i < totalLogos; i++) {
-                oneSetWidth += logoItems[i].offsetWidth;
-            }
-
-            gsap.to(carousel, {
-                x: -oneSetWidth,
-                duration: 30,
-                ease: 'none',
-                repeat: -1,
-                modifiers: {
-                    x: gsap.utils.unitize(x => parseFloat(x) % oneSetWidth)
-                }
-            });
-
-            carousel.addEventListener('mouseenter', () => {
-                gsap.to(carousel, { timeScale: 0, duration: 0.3 });
-            });
-            carousel.addEventListener('mouseleave', () => {
-                gsap.to(carousel, { timeScale: 1, duration: 0.3 });
-            });
-        }
-
-        // Refresh ScrollTrigger on load
+        // ============ LOGO CAROUSEL ============
         window.addEventListener('load', () => {
             ScrollTrigger.refresh();
+
+            const carousel = document.getElementById('logoCarousel');
+            if (carousel) {
+                const originalItems = Array.from(carousel.querySelectorAll('.logo-item'));
+
+                // Calculate width of the original set
+                let originalWidth = 0;
+                originalItems.forEach(item => {
+                    originalWidth += item.offsetWidth;
+                });
+
+                if (originalWidth > 0) {
+                    // Clone items to fill screen width + buffer
+                    // We need enough copies so that when we scroll by 'originalWidth', 
+                    // we still have content filling the screen.
+                    // Required width: originalWidth + window.innerWidth
+                    const requiredWidth = originalWidth + window.innerWidth;
+                    let currentWidth = originalWidth;
+
+                    // Keep appending copies of the original set until we meet the requirement
+                    while (currentWidth < requiredWidth) {
+                        originalItems.forEach(item => {
+                            const clone = item.cloneNode(true);
+                            carousel.appendChild(clone);
+                        });
+                        currentWidth += originalWidth;
+                    }
+
+                    // Animate
+                    // Speed: adjust duration based on width to maintain consistent speed
+                    // e.g., 50 pixels per second?
+                    const speed = 50; // pixels per second
+                    const duration = originalWidth / speed;
+
+                    gsap.to(carousel, {
+                        x: -originalWidth,
+                        duration: duration,
+                        ease: 'none',
+                        repeat: -1
+                    });
+
+                    carousel.addEventListener('mouseenter', () => {
+                        gsap.to(carousel, { timeScale: 0, duration: 0.3 });
+                    });
+                    carousel.addEventListener('mouseleave', () => {
+                        gsap.to(carousel, { timeScale: 1, duration: 0.3 });
+                    });
+                }
+            }
         });
 
         // ============ DYNAMIC SUBTITLE ============
