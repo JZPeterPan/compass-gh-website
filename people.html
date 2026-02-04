@@ -98,7 +98,7 @@
         .fade-section.visible {
             opacity: 1;
             transform: translateY(0);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
 
@@ -558,11 +558,8 @@
                     <div
                         class="person-card rounded-lg p-6 text-center fade-section w-full md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1.25rem)]">
                         <div class="person-photo">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
+                            <img src="people/Humphrey_Thompson.jpg" alt="Humphrey Thompson"
+                                class="w-full h-full object-cover rounded-full">
                         </div>
                         <h3 class="font-serif text-xl font-medium text-charcoal mb-1">Humphrey Thompson</h3>
                         <!-- <p class="text-sm text-gold mb-2">Role / Title</p> -->
@@ -592,8 +589,8 @@
                         </div>
                         <h3 class="font-serif text-xl font-medium text-charcoal mb-1">Melissa McCradden</h3>
                         <!-- <p class="text-sm text-gold mb-2">Role / Title</p> -->
-                        <p class="text-xs text-charcoal/60">Australian Institute for Machine Learning, Hospital for Sick
-                            Children, SickKids Research Institute</p>
+                        <p class="text-xs text-charcoal/60">Australian Institute for Machine Learning, Women's and
+                            Children's Health Network, SickKids Research Institute</p>
                     </div>
 
                     <!-- Daniel Rueckert -->
@@ -692,7 +689,7 @@
                     <span class="logo-location">Munich, Germany</span>
                 </div>
                 <div class="logo-item">
-                    <img src="logos/MCML.jpg" alt="Munich Center for Machine Learning">
+                    <img src="logos/MCML.png" alt="Munich Center for Machine Learning">
                     <span class="logo-location">Munich, Germany</span>
                 </div>
                 <div class="logo-item">
@@ -721,7 +718,7 @@
                     <span class="logo-location">Munich, Germany</span>
                 </div>
                 <div class="logo-item">
-                    <img src="logos/MCML.jpg" alt="Munich Center for Machine Learning">
+                    <img src="logos/MCML.png" alt="Munich Center for Machine Learning">
                     <span class="logo-location">Munich, Germany</span>
                 </div>
                 <div class="logo-item">
@@ -965,8 +962,7 @@
                 {
                     opacity: 1,
                     y: 0,
-                    duration: 0.6,
-                    delay: i * 0.1,
+                    duration: 0.4, // Faster duration for snappy feel
                     ease: 'power2.out',
                     scrollTrigger: {
                         trigger: section,
