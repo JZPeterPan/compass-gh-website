@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Round 0 Survey | COMPASS-GH</title>
+    <link rel="icon" href="logos/logo.jpeg" type="image/jpeg">
+    <meta name="description"
+        content="Participate in the COMPASS-GH Round 0 survey to help define standards for AI in general health.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://compass-gh.net/round-0-survey.html">
+    <meta property="og:title" content="Round 0 Survey | COMPASS-GH">
+    <meta property="og:description"
+        content="Participate in the COMPASS-GH Round 0 survey to help define standards for AI in general health.">
+    <meta property="og:image" content="https://compass-gh.net/logos/logo.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://compass-gh.net/round-0-survey.html">
+    <meta property="twitter:title" content="Round 0 Survey | COMPASS-GH">
+    <meta property="twitter:description"
+        content="Participate in the COMPASS-GH Round 0 survey to help define standards for AI in general health.">
+    <meta property="twitter:image" content="https://compass-gh.net/logos/logo.jpeg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Tally Embed Script -->
+    <script async src="https://tally.so/widgets/embed.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FAF9F7',
+                        charcoal: '#1A1F2E',
+                        gold: '#B8956B',
+                        stone: '#6B6B6B',
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FAF9F7;
+            color: #1A1F2E;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .transition-elegant {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Full height iframe container */
+        .survey-container {
+            height: 100vh;
+            width: 100%;
+            padding-top: 60px;
+            /* Space for navbar */
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-cream/95 backdrop-blur-sm border-b border-charcoal/10">
+        <div class="max-w-6xl mx-auto px-6 md:px-12 flex items-center justify-between py-3">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-2">
+                <img src="logos/logo.jpeg" alt="COMPASS-GH Logo" class="w-10 h-10 object-contain rounded-full">
+                <span
+                    class="font-serif text-xl font-medium text-charcoal tracking-tight hidden sm:inline">COMPASS-GH</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html#about"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">About</a>
+                <a href="papers.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">Papers</a>
+                <a href="people.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">People</a>
+                <a href="contact.html"
+                    class="text-sm font-medium text-charcoal/70 hover:text-charcoal transition-elegant">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 text-charcoal/70 hover:text-charcoal transition-elegant"
+                aria-label="Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown (Accordion Style) -->
+        <div id="mobileMenu"
+            class="hidden md:hidden bg-cream/95 backdrop-blur-sm border-b border-charcoal/10 overflow-hidden transition-all duration-300 ease-in-out">
+            <div class="flex flex-col px-6 py-4 space-y-4">
+                <a href="index.html#about"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">About</a>
+                <a href="papers.html"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">Papers</a>
+                <a href="people.html"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">People</a>
+                <a href="contact.html"
+                    class="text-base font-medium text-charcoal/70 hover:text-charcoal mobile-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile Menu Logic (Dropdown)
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        // Close on link click
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+
+    <!-- Main Content -->
+    <main>
+        <div class="survey-container">
+            <iframe src="https://tally.so/r/VLqYo6?transparentBackground=1" title="COMPASS-GH Round 0 Survey"></iframe>
+        </div>
+    </main>
+
+</body>
+
+</html>
